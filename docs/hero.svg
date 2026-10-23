@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#44b78b"/>
+    </marker>
+    <marker id="arrowdim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6785"/>
+    </marker>
+  </defs>
+  <style>
+    .title { font: 700 58px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #f5f7ff; }
+    .pitch { font: 400 25px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #aab3cc; }
+    .box   { fill: #131a33; stroke: #2a3558; stroke-width: 2; }
+    .acc   { fill: #10251f; stroke: #44b78b; stroke-width: 2.5; }
+    .lbl   { font: 600 20px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #f5f7ff; }
+    .sub   { font: 400 15px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #8f9bbb; }
+    .node  { font: 600 15px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #f5f7ff; }
+    .edge  { font: 400 13px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #44b78b; }
+    .line  { stroke: #44b78b; stroke-width: 2.5; fill: none; }
+    .dim   { stroke: #5b6785; stroke-width: 2; fill: none; }
+  </style>
+
+  <rect width="1280" height="640" fill="#0b1020"/>
+
+  <text x="80" y="118" class="title">django-admin-graph</text>
+  <text x="80" y="164" class="pitch">Your Django admin as a typed graph — filtered by what each user may see.</text>
+  <rect x="80" y="188" width="120" height="4" rx="2" fill="#44b78b"/>
+
+  <!-- left: the admin -->
+  <rect x="80" y="262" width="230" height="96" rx="14" class="box"/>
+  <text x="104" y="300" class="lbl">AdminSite</text>
+  <text x="104" y="330" class="sub">ModelAdmin hooks</text>
+
+  <rect x="80" y="392" width="230" height="96" rx="14" class="box"/>
+  <text x="104" y="430" class="lbl">request.user</text>
+  <text x="104" y="460" class="sub">staff · limited</text>
+
+  <path d="M310 310 C 350 310, 350 372, 384 372" class="line" marker-end="url(#arrow)"/>
+  <path d="M310 440 C 350 440, 350 384, 384 384" class="line" marker-end="url(#arrow)"/>
+
+  <rect x="388" y="330" width="190" height="96" rx="14" class="acc"/>
+  <text x="414" y="370" class="lbl">build_graph()</text>
+  <text x="414" y="400" class="sub">schema 1.0</text>
+
+  <path d="M578 378 L 636 378" class="line" marker-end="url(#arrow)"/>
+
+  <!-- middle: the graph -->
+  <rect x="640" y="228" width="370" height="300" rx="16" class="box"/>
+  <rect x="664" y="252" width="118" height="40" rx="8" class="acc"/>
+  <text x="682" y="278" class="node">app</text>
+  <rect x="664" y="342" width="118" height="40" rx="8" class="acc"/>
+  <text x="682" y="368" class="node">Book</text>
+  <rect x="868" y="342" width="118" height="40" rx="8" class="acc"/>
+  <text x="886" y="368" class="node">Author</text>
+  <rect x="664" y="460" width="118" height="40" rx="8" class="box"/>
+  <text x="682" y="486" class="node">admin</text>
+  <rect x="868" y="460" width="118" height="40" rx="8" class="box"/>
+  <text x="886" y="486" class="node">perm</text>
+  <rect x="868" y="252" width="118" height="40" rx="8" class="box"/>
+  <text x="886" y="278" class="node">inline</text>
+
+  <path d="M723 292 L 723 338" class="line" marker-end="url(#arrow)"/>
+  <path d="M782 362 L 864 362" class="line" marker-end="url(#arrow)"/>
+  <text x="800" y="352" class="edge">FK</text>
+  <path d="M723 456 L 723 386" class="dim" marker-end="url(#arrowdim)"/>
+  <text x="732" y="428" class="edge">admin_of</text>
+  <path d="M927 456 C 927 420, 800 420, 770 386" class="dim" marker-end="url(#arrowdim)"/>
+  <path d="M868 280 C 800 300, 760 300, 745 338" class="dim" marker-end="url(#arrowdim)"/>
+
+  <!-- right: exporters -->
+  <path d="M1010 378 L 1062 378" class="line" marker-end="url(#arrow)"/>
+  <rect x="1066" y="228" width="140" height="56" rx="12" class="box"/>
+  <text x="1092" y="263" class="lbl">JSON</text>
+  <rect x="1066" y="306" width="140" height="56" rx="12" class="box"/>
+  <text x="1092" y="341" class="lbl">Mermaid</text>
+  <rect x="1066" y="384" width="140" height="56" rx="12" class="box"/>
+  <text x="1092" y="419" class="lbl">DOT</text>
+  <rect x="1066" y="462" width="140" height="56" rx="12" class="box"/>
+  <text x="1092" y="497" class="lbl">networkx</text>
+
+  <text x="80" y="590" class="sub">pip install django-admin-graph · manage.py admin_graph · include("django_admin_graph.urls")</text>
+</svg>

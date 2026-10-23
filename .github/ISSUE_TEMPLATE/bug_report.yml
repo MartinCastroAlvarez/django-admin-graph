@@ -1,0 +1,31 @@
+name: Bug report
+description: The graph is wrong, incomplete, or shows something it should not.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The ModelAdmin (trimmed), the call or command you ran, and the graph output you got.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: django-admin-graph 0.1.0, Django 5.2, Python 3.12
+    validations:
+      required: true
+  - type: checkboxes
+    id: security
+    attributes:
+      label: Not a vulnerability
+      options:
+        - label: This does not expose models, fields or data to a user who should not see them (if it does, use a private security advisory instead).
+          required: true

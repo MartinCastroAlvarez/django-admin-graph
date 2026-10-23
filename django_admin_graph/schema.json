@@ -1,0 +1,714 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MartinCastroAlvarez/django-admin-graph/blob/main/django_admin_graph/schema.json",
+  "title": "django-admin-graph document",
+  "description": "The Django admin site as a typed graph. See docs/schema.md.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generator",
+    "site",
+    "scope",
+    "nodes",
+    "edges"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "generator": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "const": "django-admin-graph"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "site": {
+      "type": "object",
+      "required": [
+        "name",
+        "site_header",
+        "site_title"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "site_header": {
+          "type": "string"
+        },
+        "site_title": {
+          "type": "string"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "system",
+            "request"
+          ]
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/app"
+          },
+          {
+            "$ref": "#/$defs/model"
+          },
+          {
+            "$ref": "#/$defs/admin"
+          },
+          {
+            "$ref": "#/$defs/inline"
+          },
+          {
+            "$ref": "#/$defs/permission"
+          }
+        ]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    }
+  },
+  "$defs": {
+    "permissions": {
+      "type": "object",
+      "required": [
+        "view",
+        "add",
+        "change",
+        "delete"
+      ],
+      "properties": {
+        "view": {
+          "type": "boolean"
+        },
+        "add": {
+          "type": "boolean"
+        },
+        "change": {
+          "type": "boolean"
+        },
+        "delete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "required": [
+        "kind",
+        "target"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "foreign_key",
+            "one_to_one",
+            "many_to_many"
+          ]
+        },
+        "target": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^model:"
+        },
+        "on_delete": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "related_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "through": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": [
+        "name",
+        "type",
+        "field_class",
+        "verbose_name",
+        "primary_key",
+        "null",
+        "blank",
+        "editable",
+        "unique",
+        "readonly",
+        "help_text",
+        "choices",
+        "relation"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "verbose_name": {
+          "type": "string"
+        },
+        "primary_key": {
+          "type": "boolean"
+        },
+        "null": {
+          "type": "boolean"
+        },
+        "blank": {
+          "type": "boolean"
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "unique": {
+          "type": "boolean"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "max_length": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "help_text": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "value",
+              "label"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean",
+                  "null"
+                ]
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "relation": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/relation"
+            }
+          ]
+        },
+        "field_class": {
+          "type": "string"
+        }
+      }
+    },
+    "app": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "label",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^app:"
+        },
+        "kind": {
+          "const": "app"
+        },
+        "label": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "app",
+        "label",
+        "object_name",
+        "verbose_name",
+        "verbose_name_plural",
+        "pk",
+        "ordering",
+        "fields"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^model:"
+        },
+        "kind": {
+          "const": "model"
+        },
+        "app": {
+          "type": "string",
+          "pattern": "^app:"
+        },
+        "label": {
+          "type": "string"
+        },
+        "object_name": {
+          "type": "string"
+        },
+        "verbose_name": {
+          "type": "string"
+        },
+        "verbose_name_plural": {
+          "type": "string"
+        },
+        "pk": {
+          "type": "string"
+        },
+        "ordering": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        }
+      }
+    },
+    "admin": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "model",
+        "class_name",
+        "permissions",
+        "url_names",
+        "list_display",
+        "list_filter",
+        "search_fields",
+        "fields",
+        "add_fields",
+        "readonly_fields",
+        "actions",
+        "inlines"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^admin:"
+        },
+        "kind": {
+          "const": "admin"
+        },
+        "model": {
+          "type": "string",
+          "pattern": "^model:"
+        },
+        "class_name": {
+          "type": "string"
+        },
+        "permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "url_names": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": [
+              "changelist",
+              "add",
+              "change",
+              "delete",
+              "history"
+            ]
+          }
+        },
+        "list_display": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "list_display_links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "list_editable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "list_filter": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "filter"
+            ],
+            "properties": {
+              "field": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "filter": {
+                "type": "string"
+              },
+              "title": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "parameter": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "search_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ordering": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "date_hierarchy": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "list_per_page": {
+          "type": "integer"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fieldsets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "fields"
+            ],
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "readonly_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "autocomplete_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "raw_id_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prepopulated_fields": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description",
+              "allowed_permissions"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "allowed_permissions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "inlines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^inline:"
+          }
+        },
+        "add_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "inline": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "admin",
+        "model",
+        "class_name",
+        "style",
+        "permissions"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^inline:"
+        },
+        "kind": {
+          "const": "inline"
+        },
+        "admin": {
+          "type": "string",
+          "pattern": "^admin:"
+        },
+        "model": {
+          "type": "string",
+          "pattern": "^model:"
+        },
+        "class_name": {
+          "type": "string"
+        },
+        "style": {
+          "enum": [
+            "tabular",
+            "stacked",
+            "other"
+          ]
+        },
+        "permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "fk_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "extra": {
+          "type": "integer"
+        },
+        "min_num": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "max_num": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "readonly_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "permission": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "model",
+        "codename",
+        "name",
+        "action",
+        "granted"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^permission:"
+        },
+        "kind": {
+          "const": "permission"
+        },
+        "model": {
+          "type": "string",
+          "pattern": "^model:"
+        },
+        "codename": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "action": {
+          "enum": [
+            "view",
+            "add",
+            "change",
+            "delete",
+            "custom"
+          ]
+        },
+        "granted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": [
+        "source",
+        "target",
+        "kind"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "contains",
+            "foreign_key",
+            "one_to_one",
+            "many_to_many",
+            "admin_of",
+            "inline_of",
+            "permission_of"
+          ]
+        },
+        "field": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "null": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

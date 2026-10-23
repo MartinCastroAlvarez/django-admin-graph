@@ -1,0 +1,10 @@
+# Default owner — every PR.
+* @MartinCastroAlvarez
+
+# The contract and the permission boundary: review carefully.
+/django_admin_graph/schema.py   @MartinCastroAlvarez
+/django_admin_graph/schema.json @MartinCastroAlvarez
+/django_admin_graph/builder.py  @MartinCastroAlvarez
+/django_admin_graph/views.py    @MartinCastroAlvarez
+/SECURITY.md                    @MartinCastroAlvarez
+/.github/                       @MartinCastroAlvarez

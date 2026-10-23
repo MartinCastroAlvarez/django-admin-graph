@@ -1,0 +1,15 @@
+name: Feature request
+description: Graph something the admin already exposes, or add an exporter.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What should the graph contain or produce?
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Which admin API answers it?
+      description: The ModelAdmin / AdminSite method or attribute the value comes from. The package never re-derives permissions.
